@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="05987A9A-2561-7166-5E95-857C24E17639" containerWithKeyObject="609621E1-0A50-6223-F552-C03932E81BE6" localFKIndex="BB0A673E-F3FE-13C2-CD09-045511678C32" name="detalle_multas_vehiculo_FK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>6E803483-ED9A-105E-04DF-1F25BB1E9FCC</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<referredTableLongName>vehiculo</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>C161780A-495A-0C76-DE93-AAC36B8023F6</referredTableID>
+<keyObject>845CF97F-FD2E-1800-80C6-5F4FC853C2C5</keyObject>
+<referredKeyID>845CF97F-FD2E-1800-80C6-5F4FC853C2C5</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_veh</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

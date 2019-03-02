@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="calificacion" directorySegmentName="seg_0" id="B29D4F2B-E200-D1F5-C65F-C4C90DF87BA1">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:23:38 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<sourcePk>CE8E8BCD-83AA-3AA3-EAA3-2E5E4CDDA14C</sourcePk>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>E8DA8740-17EC-D823-174E-5B78B416F8E5</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>24DD5A04-16B5-DA28-77E8-BAB93D27ADBA</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

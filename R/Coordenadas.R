@@ -1,16 +1,61 @@
-multas <- read.csv("MultasMAD.csv", header = TRUE, sep = ",", fill = FALSE, blank.lines.skip = FALSE, nrows = 50)
+install.packages('tidyverse')
+library(tidyverse)
+address <- distinct(address, LUGAR)
+address$direccion <- paste(address$LUGAR, ', Madrid', sep = '')
 
-summary(multas)
-
-multas$Mad <- paste(multas$LUGAR, ' Madrid', sep = '')
-summary(multas)
+multas2 <- multas %>%
+  filter(calificacion == 'c3')
+address2 <- multas2[6]
+address2 <- distinct(address2, LUGAR)
 
 # Geocoding a csv column of "addresses" in R
 
 #load ggmap
 library(ggmap)
-register_google('AIzaSyBiZ83peM_TO8AczB7cpjKyV0NsRv851ec')
+register_google('AIzaSyDJT1IiUfMgeHV1nDnZHo2fNVBtcdl3qqY')
 
 # Initialize the data frame
 geocoded <- data.frame(stringsAsFactors = FALSE)
-result <- geocode(multas$Mad[1:nrow(multas)], output = "latlona", source = "google")
+
+for(i in 1:nrow(address2)) {
+  # Print("Working...")
+  result <- geocode(address2$direccion[i], output = "latlona", source = "google")
+  address2$lon[i] <- as.numeric(result[1])
+  address2$lat[i] <- as.numeric(result[2])
+  address2$geoAddress[i] <- as.character(result[3])
+}
+
+for (i in 1:nrow(address2)) {
+  if(print(stringr::str_count(address2$geoAddress[i], pattern = ',') == 1)) {
+    address2$lon[i] <- NA
+    address2$lat[i] <- NA
+  } else if(print(stringr::str_detect(address2$geoAddress[i], 'madrid') == TRUE)) {
+  } else {
+    address2$lon[i] <- NA
+    address2$lat[i] <- NA
+  }
+}
+
+address3 <- address2 %>%
+  filter(geoAddress == 'paseo de santa maría de la cabeza, 41, 28045 madrid, spain')
+
+for(i in 1:nrow(address3)) {
+  result2 <- geocode(address3$direccion[i], output = "latlona", source = "google")
+  address3$lon[i] <- as.numeric(result2[1])
+  address3$lat[i] <- as.numeric(result2[2])
+}
+
+address_fin <- dplyr::bind_rows(address2, address3)
+
+geocodes <- address_fin %>%
+  filter(!is.na(lon))
+
+geocodes <- geocodes[c(1,3,4)]
+mapcodes <- distinct(geocodes, LUGAR, .keep_all = TRUE)
+
+mapcodes <- read.csv('geocodegrave.csv', sep = ',', header = T)
+class(mapcodes$LUGAR)
+mapcodes$LUGAR = as.character(mapcodes$LUGAR)
+multas <- dplyr::left_join(multas, mapcodes, by = "LUGAR")
+write.csv(multas, 'MultasMAD_Python.csv', row.names=FALSE)
+

@@ -1,0 +1,58 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="2BEB5073-BEE3-8754-99FA-928B96388F60" name="vehiculo">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:19:57 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_veh" id="1BDCF5A9-B405-4B86-0F66-C45BA48F7720">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:20:02 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="vehiculo" id="230CA7E2-A347-DDCA-901D-2BCC5AF2D35B">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:20:09 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="5108CB4A-40C9-5C84-DBE2-A581A30A217E" name="vehiculo PK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:20:08 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>1BDCF5A9-B405-4B86-0F66-C45BA48F7720</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

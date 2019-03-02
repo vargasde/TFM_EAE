@@ -1,0 +1,143 @@
+library(devtools)
+install_github("rOpenSpain/caRtociudad")
+
+#----------------------------------------
+# Introducción a ggmap
+#----------------------------------------
+
+library(ggmap)
+
+unizar <- geocode('Calle de Pedro Cerbuna 12, Zaragoza, España', 
+                  source = "google")
+
+map.unizar <- get_map(location = as.numeric(unizar),
+                      color = "color",
+                      maptype = "roadmap",
+                      scale = 2,
+                      zoom = 16)
+
+ggmap(map.unizar) + geom_point(aes(x = lon, y = lat),
+                               data = unizar, colour = 'red',
+                               size = 4)
+
+#----------------------------------------
+## Funciones de `ggmap`
+#----------------------------------------
+
+#----------------------------------------
+### Funciones para obtener mapas
+#----------------------------------------
+
+library(gridExtra)
+
+p1 <- get_map(location = as.numeric(unizar), color = "color", 
+              maptype = "satellite", scale = 2, zoom = 16)
+p2 <- get_map(location = as.numeric(unizar), color = "bw", 
+              maptype = "roadmap", zoom = 16)
+p3 <- get_map(location = as.numeric(unizar), source = "stamen", 
+              maptype = "toner", scale = 2, zoom = 16)
+p4 <- get_map(location = as.numeric(unizar), source = "stamen", 
+              maptype = "watercolor", scale = 2, zoom = 16)
+
+p11 <- ggmap(p1) + theme(axis.text.y = element_blank(), axis.text.x = element_blank())
+p12 <- ggmap(p2) + theme(axis.text.y = element_blank(), axis.text.x = element_blank())
+p13 <- ggmap(p3) + theme(axis.text.y = element_blank(), axis.text.x = element_blank())
+p14 <- ggmap(p4) + theme(axis.text.y = element_blank(), axis.text.x = element_blank())
+
+grid.arrange(p11, p12, p13, p14, ncol = 2)
+
+# Representa la ubicación de la universidad de Zaragoza (u otra que prefieras) con 
+# otros tipos de mapas, otros zums, etc.
+
+#----------------------------------------
+### Funciones para consultar APIs cartográficas
+#----------------------------------------
+
+revgeocode(as.numeric(unizar))
+
+mapa <- get_map("Madrid", source = "stamen", maptype = "toner", zoom = 12)
+ruta <- route(from = "Puerta del Sol, Madrid", to = "Plaza de Castilla, Madrid")
+ggmap(mapa) + 
+  geom_path(aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
+            colour = "red", size = 2, data = ruta)
+
+#----------------------------------------
+### Funciones para representar elementos sobre mapas
+#----------------------------------------
+
+#----------------------------------------
+## Ejemplos
+#----------------------------------------
+
+crimes.houston <- subset(crime, ! crime$offense %in% c("auto theft", "theft", "burglary"))
+
+#----------------------------------------
+### Puntos sobre mapas
+#----------------------------------------
+
+HoustonMap <- qmap("houston", zoom = 14, color = "bw")
+HoustonMap +
+  geom_point(aes(x = lon, y = lat, colour = offense), data = crimes.houston, size = 1)
+
+HoustonMap +
+  geom_point(aes(x = lon, y = lat), data = crimes.houston, size = 1) + 
+  facet_wrap(~ offense)
+
+HoustonMap +
+  geom_point(aes(x = lon, y = lat), data = crimes.houston, size = 1) + 
+  facet_wrap(~ day)
+
+# Prueba a pintar las gasolineras en el mapa de España (fichero `dat/carburantes_20050222.csv`).
+
+# Baja datos georreferenciados del portal de datos abiertos del ayuntamiento de Madrid 
+# y represéntalos sobre un mapa.
+
+#----------------------------------------
+### Rutas sobre mapas
+#----------------------------------------
+
+library(maptools)
+# un fichero bajado el Ayto. de Madrid
+rutas <- getKMLcoordinates("data/130111_vias_ciclistas.kml")
+
+library(plyr)
+rutas <- ldply(1:length(rutas), function(x) data.frame(rutas[[x]], id = x))
+mapa <- get_map("Madrid", source = "stamen", maptype = "toner", zoom = 12)
+ggmap(mapa) + geom_path(aes(x = X1, y = X2, group = id), data = rutas, colour = "red")
+
+#----------------------------------------
+### Más allá de los puntos: densidades y retículas
+#----------------------------------------
+
+HoustonMap +
+  stat_bin2d(
+    aes(x = lon, y = lat, colour = offense, fill = offense),
+    size = .5, bins = 30, alpha = 1/2,
+    data = crimes.houston
+  )
+
+HoustonMap +
+  stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
+                 size = 2, data = crimes.houston,
+                 geom = "polygon"
+)
+
+# Lee [este artículo](https://journal.r-project.org/archive/2013-1/kahle-wickham.pdf) 
+# y consulta qué otras cosas (además de puntos) pueden representarse sobre un mapa.
+
+#----------------------------------------
+## Resumen y referencias
+#----------------------------------------
+
+#----------------------------------------
+## Ejercicios adicionales
+#----------------------------------------
+
+# Busca rutas en tu localidad y represéntalas sobre un mapa.
+
+# El fichero `carburantes_20050222.csv` contiene información sobre todas las gasolineras 
+# de España y los precios de los carburantes. Incluye las coordenadas geográficas de 
+# los surtidores. Representa esos datos sobre un mapa de España (o de tu provincia 
+# o municipio). Modifica el tamaño (o color) de los puntos en función de, por ejemplo, 
+# el precio de los carburantes.
+

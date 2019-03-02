@@ -1,0 +1,302 @@
+#----------------------------------------
+# Programación en R
+#----------------------------------------
+
+#----------------------------------------
+## Programación imperativa en R
+#----------------------------------------
+
+#----------------------------------------
+### Variables 
+#----------------------------------------
+
+mi.iris <- iris[1:10,]
+
+ls()
+rm(mi.iris)
+ls()
+
+mi.iris <- iris[1:10,]
+class(mi.iris)
+is.data.frame(mi.iris)
+
+x <- 1:10
+is.vector(x)
+class(x)
+typeof(x)
+
+#----------------------------------------
+### Funciones
+#----------------------------------------
+
+rm(list=ls())
+
+calcular.cuota.hipoteca <- function(capital, anyos, interes){
+  interes.mensual <- interes / 12 / 100 
+  meses <- 1:(anyos*12)
+  return(capital / sum(1 / (1+interes.mensual)^meses))
+}
+
+calcular.cuota.hipoteca(100000, 20, 3)
+
+calculadora.hipotecas <- calcular.cuota.hipoteca
+calculadora.hipotecas(100000, 20, 3)
+ls()
+rm(calculadora.hipotecas)
+
+# Crea una función que, dado un número `n` calcule la suma de los n primeros términos 
+# de la serie de Leibniz para aproximar $\pi$. Nota: ya hemos realizado previamente 
+# este ejercicio; lo que se pide aquí es incluir aquel código dentro de una función.
+
+cuadrado <- function(x){
+  return(x^2)
+}
+
+cuadrado <- function(x) return(x^2)
+
+cuadrado <- function(x) x^2
+
+potencia <- function(x, exponente = 2) x^exponente
+c(potencia(2), potencia(2, 3), potencia(2, exponente = 3))
+
+#----------------------------------------
+### Expresiones condicionales
+#----------------------------------------
+
+xln <- function(x){
+  return(-x * log(x))
+}
+
+x <- 1:10000 / 10000
+plot(x, xln(x), type = "l", xlab = "", ylab = "", 
+     main = "Función -x * log(x)")
+
+xln(0)       # Nan cuando queremos cero!
+
+xln <- function(x){
+  if (x == 0)
+    return(0)
+  return(-x * log(x))
+}
+
+xln(0)
+
+# Modifica la función anterior para que dé un error cuando x sea menor que 0 o mayor 
+# que 1. Pista: la función `stop()` lanza un error. El argumento de `stop` es el texto 
+# que aparece en el mensaje de error.
+
+# En la definición anterior hay dos `return`. Uno sobra y el otro no. ¿Cuál es cuál?
+
+xln <- function(x){
+  if (x == 0)
+    return(0)
+  else
+    return(-x * log(x))
+}
+
+# ¿Cuántos `return` sobran en la última definición de `xln`? ¿Por qué?
+
+# Existe una función en R, `ifelse`, que permite escribir la función anterior de una 
+# forma más compacta. Búscala en la ayuda y reescribe la función `xln`.
+
+# Crea una función que tome como argumento un vector de texto (o un factor) cuyas entradas 
+# sean _números_ de la forma `"1.234,56"` y devuelva el correspondiente número subyacente, 
+# es decir, que elimine el separador de miles, etc. Ten en cuenta que cuando el vector 
+# de entrada sea del tipo `factor` tendrás que convertirlo previamente en otro de tipo 
+# `character`.
+
+# Modifica la función del ejemplo anterior de forma que si el usuario pasa como argumento 
+# un vector númerico devuelva ese número; si pasa un argumento del tipo `character` 
+# o `factor`, aplique la lógica descrita en ese ejercicio y, finalmente, si pasa un 
+# argumento de otro tipo, devuelva un error (usando `stop`) con un mensaje informativo.
+
+#----------------------------------------
+### Bucles
+#----------------------------------------
+
+for (var in vector){
+  # expresión que se repite
+}
+
+mi.factorial <- function(n){
+  factorial <- 1
+  for (i in 1:n){
+    factorial <- factorial * i
+  }
+  return(factorial)
+}
+
+mi.factorial(7)
+
+# Modifica la función anterior para que devuelva explícitamente un error siempre que 
+# el argumento de la función no sea un entero positivo.
+
+while (condicion){
+  # expresión que se repite
+}
+
+mi.factorial <- function(n){
+  factorial <- n
+  while (n > 1){
+    n <- n - 1
+    factorial <- factorial * n
+  }
+  return(factorial)
+}
+
+mi.factorial(7)
+
+x <- 1:5
+sqrt(x)
+sum(x)
+
+x <- 1:10
+suma.x <- 0
+for (i in x){
+  suma.x <- suma.x + i
+}
+suma.x
+
+# Crea una función que calcule la raíz cuadrada de los elementos de un vector usando 
+# un bucle explícito.
+
+# Crea una función que, dado un número `n` devuelva la lista de sus divisores.
+
+# Modifica la función construida en un ejercicio anterior, la que devolvía los divisores 
+# de un número `n` para que compruebe que el argumento es un número entero positivo.
+
+#----------------------------------------
+## Programación funcional en R
+#----------------------------------------
+
+cuadrado.raro <- function(x) if(x < 5) x^2 else -x^2
+sapply(1:10, cuadrado.raro)
+
+lapply(iris, class)
+sapply(iris, length)
+
+#----------------------------------------
+### Funciones anónimas
+#----------------------------------------
+
+sapply(1:10, function(x) if(x < 5) x^2 else -x^2)
+
+# Crea el vector de nombres de ficheros de `data` usando `dir`; luego, aplícale una 
+# función que lea las líneas (`readLines`) y las cuente.
+
+# Usa `nchar` para contar el número de caracteres de esos ficheros.
+
+# Haz lo mismo usando la función `ldply` de `plyr`.
+
+#----------------------------------------
+### Map, reduce y más
+#----------------------------------------
+
+sapply(1:10, function(x) if(x < 5) x^2 else -x^2)
+
+sqrt(1:10)
+
+Reduce(function(a, b) a + b, 1:10)
+
+sum(1:10)
+
+# Vamos a crear el objeto `x <- split(iris, iris$Species)`, que es una lista de tres 
+# tablas. Usa `lapply` o `sapply` para examinarlas: dimensión, nombres de columnas, 
+# etc.
+
+# Usa `Reduce` con la función `rbind` para apilar las tres tablas contenidas en `x` 
+# (véase el ejercicio anterior). 
+
+# Nota: este ejercicio tiene aplicaciones prácticas importantes. Por ejemplo, cuando 
+# se leen tablas del mismo formato de ficheros distintos y es necesario juntarlas todas, 
+# i.e., apilarlas, en una única tabla final.
+
+sum(sqrt(1:10))
+
+simula <- function(n, lambda = 4, mean = 5){
+  n.visitas <- sum(rpois(n, lambda))
+  sum(rnorm(n.visitas, mean = mean))
+}
+
+res <- replicate(1000, simula(10, lambda = 7))
+
+x <- 1:20
+x[x %% 3 == 0]
+
+Filter(function(i) i %%3 == 0, x)
+
+#----------------------------------------
+#### Para saber más
+#----------------------------------------
+
+#----------------------------------------
+## Orientación a objetos
+#----------------------------------------
+
+mi.modelo <- lm(dist ~ speed, data = cars)
+class(mi.modelo)
+
+str(mi.modelo)
+
+#----------------------------------------
+### Polimorfismo
+#----------------------------------------
+
+is.list(mi.modelo)
+
+summary(iris)
+summary(mi.modelo)
+
+methods(summary)
+
+#---------------------------------------
+#Factores
+
+tmp <- sample(c('mujer', 'hombre'), 20, replace = T)
+tmp
+tmp2 <- factor(tmp)
+tmp
+tmp3 <- tmp2(tmp2 == 'mujer')
+
+#Convertir un factor a character
+
+as.character(tmp2)
+
+#----------------------------------------
+#### Para saber más
+#----------------------------------------
+
+#----------------------------------------
+## Resumen y referencias
+#----------------------------------------
+
+#----------------------------------------
+## Ejercicios adicionales
+#----------------------------------------
+
+# En R nunca implementaríamos el factorial de la manera en que lo hemos hecho en esta 
+# sección, i.e., con bucles `for` o `while`. Reescribe la función `mi.factorial` teniendo 
+# en cuenta que el factorial de 7, por ejemplo, puede calcularse haciendo `prod(2:7)`.
+
+# En este ejercicio y el siguiente, vamos a realizar una simulación para estimar la 
+# probabilidad del evento que se describe a continuación. En un avión viajan `n` personas. 
+# Cada una de ellas tiene asignado su asiento y entran al aparato en cualquier orden. 
+# El vuelo, además, está lleno: no hay plazas libres. Sin embargo, la primera persona 
+# tiene _necesidades especiales_ y le conceden el primer asiento. El resto de los pasajeros 
+# ocupa los suyos así: 
+
+# - Si su asiento está libre, se sientan en él.
+# - Si está ocupado, se sientan en cualquiera de los que está libre.
+
+# La probabilidad que se pide estimar es la de que el último pasajero encuentre libre 
+# su asiento.
+
+# Para ello, crea una función que tome como parámetro el número de asientos en el avión 
+# y devuelva `TRUE` o `FALSE` según si el último pasajero tiene disponible o no su 
+# asiento.
+
+# Una vez terminado el ejercicio anterior, usa la función `replicate` (consulta su 
+# ayuda) para ejecutar la función anterior muchas veces. El promedio del número de 
+# valores `TRUE` obtenidos será la estimación de la probabilidad del evento descrito 
+# arriba.
+

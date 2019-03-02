@@ -2,6 +2,7 @@ library(data.table)
 library(dplyr)
 
 multas <- read.csv('MultasMAD.csv', sep = ',', header = T, row.names = 'X')
+# d_multas <- multas
 
 #Arreglar la CALIFICACION PARA QUE SOLO SEAN 3 CATEGORIAS: LEVE, GRAVE Y MUY GRAVE
 levels(multas$CALIFICACION)
@@ -16,16 +17,29 @@ class(multas$CALIFICACION)
 class(multas$LUGAR)
 multas$LUGAR = as.character(multas$LUGAR)
 
-#Cambiar los nombres de meses a numeros
-class(multas$MES)
-levels(multas$MES)
-levels(multas$MES)[levels(multas$MES)=="DICIEMBRE"] <- 12
-levels(multas$MES)[levels(multas$MES)=="ENERO"] <- 1
-levels(multas$MES)[levels(multas$MES)=="FEBRERO"] <- 2
-levels(multas$MES)[levels(multas$MES)=="NOVIEMBRE"] <- 11
-levels(multas$MES)[levels(multas$MES)=="OCTUBRE"] <- 10
-levels(multas$MES)[levels(multas$MES)=="SEPTIEMBRE"] <- 9
+# ------------------------------------------------------------------
+# PRUEBAS PARA EL MES
 
+info <- multas %>%
+  filter(ANIO == 2014)
+
+summary(info)
+
+info2 <- distinct(info, MES)
+rm(info)
+
+# ------------------------------------------------------------------
+
+# CAMBIO DE NOMBRE DE MES A NUMERO
+
+multas$MES = as.character(multas$MES)
+multas$MES <- gsub('ENERO', '1', multas$MES)
+multas$MES <- gsub('FEBRERO', '2', multas$MES)
+multas$MES <- gsub('SEPTIEMBRE', '9', multas$MES)
+multas$MES <- gsub('NOVIEMBRE', '11', multas$MES)
+multas$MES <- gsub('DICIEMBRE', '12', multas$MES)
+multas$MES <- gsub('OCTUBRE', '10', multas$MES)
+multas$MES <- gsub('SEPTIEMBRE', '9', multas$MES)
 multas$MES = as.integer(multas$MES)
 
 #----------------------------------------------------------------------------------------
@@ -66,8 +80,8 @@ head(multas$HORA)
       #DATETIME$FECHA <- as.POSIXct(DATETIME$FECHA)
 #------------------------------------------------------------------------------------------
 
-# Unir fecha y hora como caracter
-multas$FECHA <- paste(multas$ANIO, multas$MES, 01, sep = '-') 2016-12-01 17:30
+# UNIR FECHA Y HORA COMO CHARACTER
+multas$FECHA <- paste(multas$ANIO, multas$MES, 01, sep = '-') 
 multas$FECHA <- paste(multas$FECHA, multas$HORA, sep = ' ')
 head(multas$FECHA)
 
@@ -77,13 +91,18 @@ head(multas$FECHA)
   #DATETIME
 multas$FECHA <- as.POSIXct(multas$FECHA)
 class(multas$FECHA)
-class(multas$IFECHA)
+multas$HORA <- NULL
+
+# ORDENAR DATA FRAME Y ASIGNAR PK A CADA MULTA
+multas <- multas[order(multas$FECHA),]
+multas$id_mul <- paste('m', 1:nrow(multas), sep = '')
+
 
 #Convertir DESCUENTO a caracter
 class(multas$DESCUENTO)
 multas$DESCUENTO = as.character(multas$DESCUENTO)
 
-#Arreglar los nombres de denunciantes
+# ARREGLAR NOMBRES DE DENUNCIANTES
 class(multas$DENUNCIANTE)
 levels(multas$DENUNCIANTE)
 levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="SER                 "] <- 'SER'
@@ -91,26 +110,42 @@ levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="POLICIA MUNICIPAL   "] <
 levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="SACE                "] <- 'SACE'
 multas$DENUNCIANTE = as.character(multas$DENUNCIANTE)
 
+# CREACION DE TABLA DENUNCIATES Y MERGE CON DETALLE DE MULTAS
+denunciante <- distinct(multas, DENUNCIANTE)
+denunciante$id <- paste('d', 1:nrow(denunciante), sep = '')
+colnames(denunciante) <- c('denunciante','id_den')
+denunciante <- denunciante[c(2,1)]
+multas <- merge(multas, denunciante,by.x = "DENUNCIANTE", by.y = "denunciante")
+colnames(multas)[15] <- 'denunciante'
+
+# CREACION DE TABLA CALIFICACION
+calificacion <- distinct(multas, CALIFICACION)
+calificacion$id_cal <- paste('c', 1:nrow(calificacion), sep = '')
+colnames(calificacion) <- c('calificacion','id_cal')
+calificacion <- calificacion[c(2,1)]
+multas <- merge(multas, calificacion, by.x = "CALIFICACION", by.y = "calificacion")
+colnames(multas)[17] <- 'calificacion'
+
 
 #--------------------------------------------------------------------------------------------------------------------------------
       
 reasons <- count(multas, multas$HECHO.BOL)
 colnames(reasons) <- c("Reason", 'count')
-reasons$Motivo <- (do.call('rbind', strsplit(as.character(reasons$Reason),': '))) #Contar el numero de elementos que devuelve split y si es igual a 1 dejarlo vacio
+#reasons$Motivo <- (do.call('rbind', strsplit(as.character(reasons$Reason),': '))) #Contar el numero de elementos que devuelve split y si es igual a 1 dejarlo vacio
       
-n = 1
-for (i in reasons$Reason) {
-    reasons$elemcadena[n] <- length(strsplit(as.character(reasons$Reason), ": ")[[n]])
-  n = n+1
-}
+#n = 1
+#for (i in reasons$Reason) {
+#    reasons$elemcadena[n] <- length(strsplit(as.character(reasons$Reason), ": ")[[n]])
+#  n = n+1
+#}
 
-grepl("*BICICLETA*", reasons$Reason[78])
+#grepl("*BICICLETA*", reasons$Reason[78])
 
 c = 1
-for (i in 1:6242) {
+for (i in 1:nrow(reasons)) {
   if(print(grepl("*ALCOHOL*|*ALCOHOLEMIA*|*EMBRIAGUEZ*|*ALCOHOL*", reasons$Reason[c]) == TRUE)) {
     reasons$Motivo[c] <- 'ALCOHOLEMIA'
-  } else if(print(grepl("*CONTAMINACI�N*|*GASES*", reasons$Reason[c]) == TRUE)) {
+  } else if(print(grepl("*CONTAMINACIÓN*|*GASES*", reasons$Reason[c]) == TRUE)) {
     reasons$Motivo[c] <- 'VIOLAR RESTRICCIONES POR CONTAMINACION'
   } else if(print(grepl("*ESTACIONAR EN LUGAR PROHIBIDO*|*ESTACIONAR EN ZONA PROHIBIDA*", reasons$Reason[c]) == TRUE)) {
     reasons$Motivo[c] <- 'ESTACIONAMIENTO PROHIBIDO'
@@ -131,7 +166,7 @@ for (i in 1:6242) {
   } else if(print(grepl("*REBASAR*|*ADELANTAR*", reasons$Reason[c]) == TRUE)) {
     reasons$Motivo[c] <- 'REBASAR INDEBIDAMENTE'
   } else if(print(grepl("*SEÑAL*|*VIALES*|*CIRCULACIÓN RESERVADA*", reasons$Reason[c]) == TRUE)) {
-    reasons$Motivo[c] <- 'OMISION DE SEÁLIZACIÓN VIAL O DE CONDUCCIÓN'
+    reasons$Motivo[c] <- 'OMISION DE SENALIZACION VIAL O DE CONDUCCION'
   } else if(print(grepl("*OCUPANTE*", reasons$Reason[c]) == TRUE)) {
     reasons$Motivo[c] <- 'EXCESO DE OCUPANTES'
   } else if(print(grepl("*PANTALLA*|*TELEFONO*", reasons$Reason[c]) == TRUE)) {
@@ -157,8 +192,8 @@ for (i in 1:6242) {
   } else if(print(grepl("*ZIG ZAG*", reasons$Reason[c]) == TRUE)) {
     reasons$Motivo[c] <- 'CONDUCCION NEGLIGENTE ZIG ZAG'
   } else if(print(grepl("\\bPARAR\\b|\\bPARARSE\\b|\\bALTO\\b", reasons$Reason[c]) == TRUE)) {
-    reasons$Motivo[c] <- 'OMISION DE SEÁLIZACIÓN VIAL O DE CONDUCCIÓN' #Indicar que esto puede ser porque para donde no debe o porque no para cuando le indican.
-  } else if(print(grepl("*CAMIÓN*", reasons$Reason[c]) == TRUE)) {
+    reasons$Motivo[c] <- 'OMISION DE SENALIZACION VIAL O DE CONDUCCION' #Indicar que esto puede ser porque para donde no debe o porque no para cuando le indican.
+  } else if(print(grepl("*CAMI?N*", reasons$Reason[c]) == TRUE)) {
     reasons$Motivo[c] <- 'EXCESO DE PESO CAMION'
   } else if(print(grepl("\\bPERSONAS\\b", reasons$Reason[c]) == TRUE)) {
     reasons$Motivo[c] <- 'TRANSPORTE DE PASAJEROS, OBJETOS O ANIMALES'
@@ -176,36 +211,123 @@ for (i in 1:6242) {
   c = c + 1
 }
 
-c = 1
-for (i in reasons$Reason) {
-  if(print(grepl("*MONOPATIN*|\\bPATIN\\b", reasons$Reason[c]) == TRUE)) {
-    reasons$Vehiculo_implicado[c] <- 'MONOPATIN, PATIN O SIMILAR'
-  } else if(print(grepl("\\bDOS RUEDA\\b|\\bDOS RUEDAS\\b|\\bMOTO\\b|\\bCICLOMOTOR\\b|\\bMOTOCICLETA\\b", reasons$Reason[c]) == TRUE)) {
-    reasons$Vehiculo_implicado[c] <- 'MOTOCICLETA'
-  } else if(print(grepl("\\bBICI*|*CICLISTA*|*BICICLETA*", reasons$Reason[c]) == TRUE)) {
-    reasons$TVehiculo_implicado[c] <- 'BICICLETA'
+a = 1
+for (i in 1:nrow(reasons)) {
+  if(print(grepl("*MONOPATIN*|\\bPATIN\\b", reasons$Reason[a]) == TRUE)) {
+    reasons$Vehiculo_implicado[a] <- 'MONOPATIN, PATIN O SIMILAR'
+  } else if(print(grepl("\\bDOS RUEDA\\b|\\bDOS RUEDAS\\b|\\bMOTO\\b|\\bCICLOMOTOR\\b|\\bMOTOCICLETA\\b", reasons$Reason[a]) == TRUE)) {
+    reasons$Vehiculo_implicado[a] <- 'MOTOCICLETA'
+  } else if(print(grepl("\\bBICI*|*CICLISTA*|*BICICLETA*", reasons$Reason[a]) == TRUE)) {
+    reasons$Vehiculo_implicado[a] <- 'BICICLETA'
   } else {
-    reasons$TVehiculo_implicado[c] <- 'AUTOMOTOR'
+    reasons$Vehiculo_implicado[a] <- 'AUTOMOTOR'
   }
-  c = c + 1
+  a = a + 1
 }
 
+# CREACION DE TABLA DE TIPO DE MULTA
+tipo_mul <- count(reasons, reasons$Motivo)
+tipo_mul$id_tip <- paste('t', 1:nrow(tipo_mul), sep = '')
+tipo_mul[2] <- NULL
+tipo_mul <- tipo_mul[c(2,1)]
+colnames(tipo_mul) <- c('id_tipo','tipo_multa')
 
 
-colnames(reasons)
-reasons[2] <- NULL
-colnames(reasons) <- c("HECHO.BOL", 'count', 'Motivo', 'Vehiculo_implicado')
-multaspruebraz <- merge(multasprueb,reasons, by.x = "HECHO.BOL", by.y = "HECHO.BOL")
-?order_by
+# CREACION DE TABLA DE VEHICULOS
+vehiculos <- count(reasons, reasons$Vehiculo_implicado)
+vehiculos$id_veh <- paste('v', 1:nrow(vehiculos), sep = '')
+vehiculos[2] <- NULL
+vehiculos <- vehiculos[c(2,1)]
+colnames(vehiculos) <- c('id_veh','vehiculo')
 
-colnames(reasons)
-reasons[2] <- NULL
-colnames(reasons) <- c("HECHO.BOL", 'count', 'Motivo', 'Vehiculo_implicado')
-det_multas <- merge(multas,reasons, by.x = "HECHO.BOL", by.y = "HECHO.BOL")
+# CREAR TABLA DE RAZONES DE MULTA CON CODIGO PARA HACER MERGE CON EL DETALLE
+reasons_cod <- merge(reasons, vehiculos, by.x = "Vehiculo_implicado", by.y = "vehiculo")
+reasons_cod <- merge(reasons_cod, tipo_mul, by.x = "Motivo", by.y = "tipo_multa")
+reasons_cod[c(1,2,4)] <- NULL
+colnames(reasons_cod)[1] <- 'HECHO.BOL'
 
-head(det_multas)
+# MERGE DE CODIGOS CON DETALLE DE MULTAS
+multas <- merge(multas,reasons_cod, by.x = "HECHO.BOL", by.y = "HECHO.BOL")
+det_multas <- merge(multas,reasons_cod, by.x = "HECHO.BOL", by.y = "HECHO.BOL") # Tarda aprox 11min
+colnames(det_multas)[c(16,17)] <- c('VEHICULO', 'CATEGORIA')
 
-Motivos <- count(reasons, reasons$Motivo)
+# ELIMINACION DE COLUMNAS
+det_multas[c('DENUNCIANTE','CALIFICACION','HORA', 'COORDENADA_X', 'COORDENADA_Y')] <- NULL
+colnames(det_multas)[c(15,16)] <- c('DENUNCIANTE', 'CALIFICACION')
 
+colnames(multas)
+
+# BORRAR TABLAS DE PRUEBA
+rm(DATETIME,multasprueb,multaspruebraz,reasons_cod)
+
+multas_sample <- dplyr::sample_n(multas, 500000, replace = TRUE)
+write.csv(multas_sample, 'SampleMultasPython.csv', row.names = FALSE)
+
+#----------------------------------------------------------------------------------------------------------------
+
+MAPAS
+
+multas <- multas
+multas2 <- multas %>%
+  filter(calificacion == 'c3') %>%
+  arrange(FECHA)
+
+address <- distinct(multas2, LUGAR)
+colnames(address) <- c("direccion", 'count')
+
+library(devtools)
+library(caRtociudad)
+install_github("rOpenSpain/caRtociudad", force = T)
+
+# using full address
+my.address <- caRtociudad::cartociudad_geocode("plaza de cascorro 11, 28005 madrid")
+caRtociudad::cartociudad_geocode()
+print(my.address)
+
+address$direcc <- paste(address$direccion, ', MADRID', sep = '')
+address$direcc[69]
+
+res <- sapply(address$direcc[1:], caRtociudad::cartociudad_geocode) 
+?sapply
+res
+Si todo funciona bien (puede haber errores por el camino, puede que no se encuentre alguna dirección, etc.) 
+tendrás una lista de dfs con una geolocalización por entrada. 
+Si haces 
+
+library(plyr) 
+ldply(res, function(x) data.frame(long = x[1,12], lat = x[1,13])) 
+
+1tendrás un dataframe con el mismo número de filas que el original con la latitud y longitud correspondiente a 
+las direcciones en cuestión. Le puedes pegar luego esas filas al df original.
+
+library(ggmap)
+library(ggplot2)
+library(ggmap)
+register_google('AIzaSyBiZ83peM_TO8AczB7cpjKyV0NsRv851ec')
+
+unizar <- geocode('Calle de Pedro Cerbuna 12, Zaragoza, España', 
+                  source = "google")
+
+mapita <- caRtociudad::cartociudad_get_map(c(my.address$lng, my.address$lat), 1)
+
+?caRtociudad::cartociudad_get_map
+
+map.unizar <- get_map(location = c(my.address$lng, my.address$lat),
+                      color = "color",
+                      maptype = "roadmap",
+                      scale = 2,
+                      zoom = 16)
+
+ggmap::ggmap(mapita)
+
+soria <- caRtociudad::cartociudad_geocode(address[1:40,1])
+
+soria_map <- caRtociudad::cartociudad_get_map(c(soria$lat, soria$lng), 1)
+ggmap::ggmap(soria_map)
+
+# BUSCAR NAs
+length(which(is.na(det_multas[17])==T))
+
+colnames(multas)
 
 #-------------------------------------------------------------------------------------------------

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="2D717DAA-6375-FCB5-B6E3-4C3A30A76467" containerWithKeyObject="609621E1-0A50-6223-F552-C03932E81BE6" localFKIndex="4E090B83-B25E-4072-6B84-66C1F838766E" name="detalle_multas_calificacion_FK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>B29D4F2B-E200-D1F5-C65F-C4C90DF87BA1</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<referredTableLongName>calificacion</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>70E3569A-2D1F-B9FE-3A28-0DDE96731510</referredTableID>
+<keyObject>4FBE6576-9CAF-7764-0A55-53A7323B2744</keyObject>
+<referredKeyID>4FBE6576-9CAF-7764-0A55-53A7323B2744</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_cal</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

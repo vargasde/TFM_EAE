@@ -1,0 +1,58 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="099E0726-833F-1386-80FA-DE92A2749405" name="denunciante">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:20:23 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_den" id="DF64DAD2-F140-C270-2B44-91CE80545A57">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:20:29 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="denunciante" id="6BB8C5DA-62EA-7B6C-C9D5-BBB1AC33D4CB">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:20:39 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="64732BBA-50EA-305B-9046-F6FA80B40AB6" name="denunciante PK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:20:38 UTC</createdTime>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<engineerTo>
+<item key="2784A70D-6CE8-F62F-2A03-A6CE99164678" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>DF64DAD2-F140-C270-2B44-91CE80545A57</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

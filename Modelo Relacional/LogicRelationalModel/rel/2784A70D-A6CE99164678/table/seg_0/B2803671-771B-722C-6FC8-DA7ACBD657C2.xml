@@ -1,0 +1,49 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B2803671-771B-722C-6FC8-DA7ACBD657C2" name="tipo_multa">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>E3FCD53E-7E07-B14A-982C-03BD697096D4</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_tipo" id="059419AB-B990-D67C-77CA-06BCBB0C11E7">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>43B50485-779D-6CD0-E8FD-D67CCB0E60B6</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="tipo_multa" id="B28A3266-2777-CF47-AD4A-076846A4D04C">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>B4985D70-D3F3-94D1-F8FA-D8B9CDA8D25E</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="251F0AB9-19D0-15A6-6AF5-FB9DB64D3DE0" name="tipo_multa_PK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>B15C68EF-E488-3F1F-A782-3DF770253C53</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="059419AB-B990-D67C-77CA-06BCBB0C11E7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

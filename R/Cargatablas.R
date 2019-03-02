@@ -1,10 +1,10 @@
 #TFM
 #Importar data individual
-multas <- read.csv("MultasMAD.csv", header = TRUE, sep = ",", fill = FALSE, blank.lines.skip = FALSE)
+# multas <- read.csv("MultasMAD.csv", header = TRUE, sep = ",", fill = FALSE, blank.lines.skip = FALSE)
 
 #Path para ubicacion de archivos
 
-folder<- "Users/Diego/OneDrive/Documents/Maestría/Clases/TFM/Codigos/TFM_EAE/Datos"
+folder<- "Users/Diego/OneDrive/Documents/Maestr?a/Clases/TFM/Codigos/TFM_EAE/Datos"
 
 #Lista de archivos .csv a hacer read
 file_list <- list.files(path=folder, pattern="*.csv")

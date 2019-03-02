@@ -1,0 +1,250 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="609621E1-0A50-6223-F552-C03932E81BE6" name="detalle_multas">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>24DD5A04-16B5-DA28-77E8-BAB93D27ADBA</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_mul" id="24208036-6F85-7F21-F4BE-F684F92FD911">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>F3AD15D2-2D8E-BA37-C0BA-8B2E932F35A3</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha" id="81939CFE-C54A-8D0D-0AD9-DEAB6F942E6D">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>D11361A0-9D88-02F5-E8C2-D4564E97306D</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="mes" id="899DC1AD-8F71-4A0E-0911-187BB83A7D78">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>D3AA5140-236D-D73D-F291-5335E0F4F284</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="anio" id="4077C738-EA9D-7FA8-2FA1-451BC4F0FEE1">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>DC474BD7-09C3-B1A3-F809-735B1B115EA9</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="lugar" id="8A2932DE-0FDE-B4A8-F73E-4E4D856396F2">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>AA419375-E2EA-44ED-2237-EF5E91CFEEDE</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="importe" id="F21C4A2A-6821-61E5-4EC8-AB016BA4EF57">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>7A5A4B39-053D-D14E-BAC7-C5BEE57ED00C</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descuento" id="BEDFF484-33A5-1B5A-3876-5077F9605673">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>23B34021-7FA2-191A-DBAD-60DA7B9497C4</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="puntos" id="F9A1F090-DDCE-BB30-17CE-02BDD907F582">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>BD5B9342-5F24-F4F6-2EAA-E4F726275CDE</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="velocidad_limite" id="868B6FD4-A891-880A-10C1-39D99BF918FF">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>2189D123-8768-F8BB-5DE9-B50D7619FDCB</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="velocidad_circulacion" id="E4B21979-A7BB-9FFC-9956-364353CB5A30">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>A5563FEE-AC33-8A0F-3CF4-F62740FF7E0B</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="denunciante_id_den" id="9AEAD5ED-55F0-111D-2E82-6F2F12F7F692">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>6ED0D233-BFA7-5055-56DC-5233654A6430</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BB148EFD-EF47-E54D-1A28-C07DB944D9A6" referredColumn="F2AB2870-50F5-F423-67BC-4E354900FDCA"/>
+</associations>
+</Column>
+<Column name="vehiculo_id_veh" id="05A1C2BB-0253-99DA-383B-8E849718D531">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>AEE124CC-B88B-6543-8362-7CCD633FDA3A</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="05987A9A-2561-7166-5E95-857C24E17639" referredColumn="2EC49846-426D-7E86-0223-06F69B4319C6"/>
+</associations>
+</Column>
+<Column name="calificacion_id_cal" id="4DF53314-F8E1-DF04-F5C3-6BC10439FC1A">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>D971CE94-3AFB-9DD3-2233-C93AA77C0656</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2D717DAA-6375-FCB5-B6E3-4C3A30A76467" referredColumn="0D600D6A-56D2-8B00-8DC0-F915063FB9F2"/>
+</associations>
+</Column>
+<Column name="tipo_multa_id_tipo" id="CA2C5CEA-A3AA-DA13-4316-006B034EF687">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>C1E72BFA-5522-7EC3-330E-ACA599C0ADEF</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="85877386-CE41-CD89-7BDC-2E8350A4B933" referredColumn="059419AB-B990-D67C-77CA-06BCBB0C11E7"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="529AC964-CBC5-E7AE-EF64-FC9F8CA9DA5A" name="detalle_multas_PK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>332235C6-C798-9211-53BE-5F6AD42F5BAD</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="24208036-6F85-7F21-F4BE-F684F92FD911"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4E090B83-B25E-4072-6B84-66C1F838766E" name="detalle_multas_calificacion_FK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>B29D4F2B-E200-D1F5-C65F-C4C90DF87BA1</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4DF53314-F8E1-DF04-F5C3-6BC10439FC1A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9D62BC4A-5610-8849-FB59-060247A58762" name="detalle_multas_denunciante_FK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>6FC0C742-EAC8-047B-4256-22CAAD4B196A</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9AEAD5ED-55F0-111D-2E82-6F2F12F7F692"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8354A83C-C5AC-A969-4BC4-97B84E86AED7" name="detalle_multas_tipo_multa_FK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>73F7AFE5-5234-8C13-371D-5F2CB6BE1BE5</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CA2C5CEA-A3AA-DA13-4316-006B034EF687"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BB0A673E-F3FE-13C2-CD09-045511678C32" name="detalle_multas_vehiculo_FK">
+<createdBy>Diego</createdBy>
+<createdTime>2019-02-22 17:25:26 UTC</createdTime>
+<generatorID>6E803483-ED9A-105E-04DF-1F25BB1E9FCC</generatorID>
+<ownerDesignName>LogicRelationalModel</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="05A1C2BB-0253-99DA-383B-8E849718D531"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
