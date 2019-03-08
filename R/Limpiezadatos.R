@@ -1,7 +1,7 @@
 library(data.table)
 library(dplyr)
 
-multas <- read.csv('MultasMAD.csv', sep = ',', header = T)
+multas <- read.csv('det_multas.csv', sep = ',', header = T)
 # d_multas <- multas
 
 #Arreglar la CALIFICACION PARA QUE SOLO SEAN 3 CATEGORIAS: LEVE, GRAVE Y MUY GRAVE
@@ -298,71 +298,5 @@ class(det_multas$coordenada_x)
 
 #----------------------------------------------------------------------------------------------------------------
 
-MAPAS
-
-multas <- multas
-multas2 <- multas %>%
-  filter(calificacion == 'c3') %>%
-  arrange(FECHA)
-
-address <- distinct(multas2, LUGAR)
-colnames(address) <- c("direccion", 'count')
-
-library(devtools)
-library(caRtociudad)
-install_github("rOpenSpain/caRtociudad", force = T)
-
-# using full address
-my.address <- caRtociudad::cartociudad_geocode("plaza de cascorro 11, 28005 madrid")
-caRtociudad::cartociudad_geocode()
-print(my.address)
-
-address$direcc <- paste(address$direccion, ', MADRID', sep = '')
-address$direcc[69]
-
-res <- sapply(address$direcc[1:], caRtociudad::cartociudad_geocode) 
-?sapply
-res
-Si todo funciona bien (puede haber errores por el camino, puede que no se encuentre alguna dirección, etc.) 
-tendrás una lista de dfs con una geolocalización por entrada. 
-Si haces 
-
-library(plyr) 
-ldply(res, function(x) data.frame(long = x[1,12], lat = x[1,13])) 
-
-1tendrás un dataframe con el mismo número de filas que el original con la latitud y longitud correspondiente a 
-las direcciones en cuestión. Le puedes pegar luego esas filas al df original.
-
-library(ggmap)
-library(ggplot2)
-library(ggmap)
-register_google('AIzaSyBiZ83peM_TO8AczB7cpjKyV0NsRv851ec')
-
-unizar <- geocode('Calle de Pedro Cerbuna 12, Zaragoza, España', 
-                  source = "google")
-
-mapita <- caRtociudad::cartociudad_get_map(c(my.address$lng, my.address$lat), 1)
-
-?caRtociudad::cartociudad_get_map
-
-map.unizar <- get_map(location = c(my.address$lng, my.address$lat),
-                      color = "color",
-                      maptype = "roadmap",
-                      scale = 2,
-                      zoom = 16)
-
-ggmap::ggmap(mapita)
-
-soria <- caRtociudad::cartociudad_geocode(address[1:40,1])
-
-soria_map <- caRtociudad::cartociudad_get_map(c(soria$lat, soria$lng), 1)
-ggmap::ggmap(soria_map)
-
-# BUSCAR NAs
-length(which(is.na(det_multas[17])==T))
-
-colnames(multas)
-
-
-
-#-------------------------------------------------------------------------------------------------
+geocodeformat <- multas %>%
+  arrange(coordenada_x)

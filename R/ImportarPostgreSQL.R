@@ -1,6 +1,8 @@
 install.packages('DBI')
 library(RPostgres)
 library(DBI)
+library(data.table)
+library(dplyr)
 
 pw<- {
   "osna8tzv"
@@ -13,6 +15,11 @@ con <- dbConnect(RPostgres::Postgres()
                  , user='vargasde'
                  , password=pw)
 
+# Probar que existan las tablas
+
+dbExistsTable(con, "multas")
+
+# IMPORT DATA ---------------------------------------------------------------------------------
 
 rm(pw) # removes the password
 
@@ -34,3 +41,7 @@ det_multas10 <- det_multas[9000001:nrow(det_multas),]
 rm(det_multasfin, reasons_cod, multas2)
 colnames(multas2)
 colnames(det_multas)
+
+# MANIPULATION-------------------------------------------------------------------------------------
+
+query 
