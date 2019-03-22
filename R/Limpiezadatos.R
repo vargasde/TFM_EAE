@@ -1,32 +1,38 @@
 library(data.table)
 library(dplyr)
+library(tidyverse)
+library(tidyr)
+library(plyr)
 
 multas <- read.csv('det_multas.csv', sep = ',', header = T)
-# d_multas <- multas
 
 #Arreglar la CALIFICACION PARA QUE SOLO SEAN 3 CATEGORIAS: LEVE, GRAVE Y MUY GRAVE
+class(multas$CALIFICACION)
 levels(multas$CALIFICACION)
-levels(multas$CALIFICACION)[levels(multas$CALIFICACION)=="GRAVE     "] <- "GRAVE"
-levels(multas$CALIFICACION)[levels(multas$CALIFICACION)=="LEVE      "] <- "LEVE"
-levels(multas$CALIFICACION)[levels(multas$CALIFICACION)=="MUY GRAVE "] <- "MUY GRAVE"
+multas$CALIFICACION <- str_trim(multas$CALIFICACION)
+      #----------------------------------------------------------------------------------------
+      # levels(multas$CALIFICACION'')[levels(multas$CALIFICACION)=="GRAVE     "] <- "GRAVE"
+      # levels(multas$CALIFICACION)[levels(multas$CALIFICACION)=="LEVE      "] <- "LEVE"
+      # levels(multas$CALIFICACION)[levels(multas$CALIFICACION)=="MUY GRAVE "] <- "MUY GRAVE"
 
-multas$CALIFICACION = as.character(multas$CALIFICACION)
 class(multas$CALIFICACION)
 
 #Cambio a character a LUGAR
 class(multas$LUGAR)
+multas$LUGAR <- str_trim(multas$LUGAR)
 multas$LUGAR = as.character(multas$LUGAR)
 
 # ------------------------------------------------------------------
+
 # PRUEBAS PARA EL MES
-
-info <- multas %>%
-  filter(ANIO == 2014)
-
-summary(info)
-
-info2 <- distinct(info, MES)
-rm(info)
+  
+  # verificar que 2014 tengo solo de Sep. en adelante
+  #info <- multas %>%
+    #filter(ANIO == 2014)
+  
+  #summary(info)
+  
+  #info <- distinct(info, MES)
 
 # ------------------------------------------------------------------
 
@@ -108,9 +114,12 @@ multas$DESCUENTO = as.integer(multas$DESCUENTO)
 # ARREGLAR NOMBRES DE DENUNCIANTES
 class(multas$DENUNCIANTE)
 levels(multas$DENUNCIANTE)
-levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="SER                 "] <- 'SER'
-levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="POLICIA MUNICIPAL   "] <- 'POLICIA MUNICIPAL'
-levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="SACE                "] <- 'SACE'
+multas$DENUNCIANTE <- str_trim(multas$DENUNCIANTE)
+#----------------------------------------------------------------------------------
+   # levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="SER                 "] <- 'SER'
+   # levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="POLICIA MUNICIPAL   "] <- 'POLICIA MUNICIPAL'
+   # levels(multas$DENUNCIANTE)[levels(multas$DENUNCIANTE)=="SACE                "] <- 'SACE'
+
 multas$DENUNCIANTE = as.character(multas$DENUNCIANTE)
 
 # CREACION DE TABLA DENUNCIATES Y MERGE CON DETALLE DE MULTAS
@@ -298,5 +307,18 @@ class(det_multas$coordenada_x)
 
 #----------------------------------------------------------------------------------------------------------------
 
-geocodeformat <- multas %>%
-  arrange(coordenada_x)
+#MUESTRA DE LA TABLA
+tipo_mul <- tipo_mul %>%
+  filter(id_tipo != 't8')
+
+#-------------------------------------------------------------------------------------------------
+
+# CAMBIAR EL NOMBRE DEL TIPO DE MULTA DE ESTACIONAMIENTO Y APLICAR EL CAMBIO EN EL DETALLE DE MULTAS
+tipo_mul$id_tipo <- str_replace(tipo_mul$tipo_multa, "ESTACIONAMIENTO NEGLIGENTE", "ESTACIONAMIENTO")
+write.csv(tipo_mul, file = 'tipo_mul.csv', row.names = FALSE)
+rm(tipo_mul)
+
+sum(multas_mad$tipo_multa == 't24')
+t8 <- multas_mad %>%
+  filter(tipo_multa == 't8')
+multas_mad$tipo_multa <- str_replace(multas_mad$tipo_multa, "t8", "t7")

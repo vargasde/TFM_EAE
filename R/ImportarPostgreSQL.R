@@ -3,45 +3,61 @@ library(RPostgres)
 library(DBI)
 library(data.table)
 library(dplyr)
+library(stringr)
 
-pw<- {
+pw <- {
   "osna8tzv"
 }
 
-con <- dbConnect(RPostgres::Postgres()
+#GCP
+gcp <- dbConnect(RPostgres::Postgres()
                  , host='35.228.88.227'
                  , port='5432'
                  , dbname='tfmeae'
                  , user='vargasde'
                  , password=pw)
 
+#AWS
+aws <- dbConnect(RPostgres::Postgres(), 
+                   host='multastfm.cjdbvyorvhjj.us-east-2.rds.amazonaws.com', 
+                   port='5432', 
+                   dbname='postgres', 
+                   user='vargasde1', 
+                   password=pw)
+
 # Probar que existan las tablas
 
-dbExistsTable(con, "multas")
+dbExistsTable(aws, "multas")
 
-# IMPORT DATA ---------------------------------------------------------------------------------
+# Borrar password
 
 rm(pw) # removes the password
 
-# Probar que existan las tablas
+# IMPORT DATA ---------------------------------------------------------------------------------
 
 dbExistsTable(con, "multas")
 
 # Importar data de las tablas
 
-dbWriteTable(con, "denunciante", denunciante, row.names=FALSE, append=TRUE)
-dbWriteTable(con, "tipo_multa", tipo_mul, row.names=FALSE, append=TRUE)
-dbWriteTable(con, "vehiculo", vehiculos, row.names=FALSE, append=TRUE)
-dbWriteTable(con, "calificacion", calificacion, row.names=FALSE, append=TRUE)
-dbWriteTable(con, "multas", det_multas10, row.names=FALSE, append=TRUE)
+dbWriteTable(aws, "denunciante", denunciante, row.names=FALSE, append=TRUE)
+dbWriteTable(aws, "tipo_multa", tipo_mul, row.names=FALSE, append=TRUE)
+dbWriteTable(aws, "vehiculo", vehiculos, row.names=FALSE, append=TRUE)
+dbWriteTable(aws, "calificacion", calificacion, row.names=FALSE, append=TRUE)
 
-multas2 <- head(det_multas)
-det_multas10 <- det_multas[9000001:nrow(det_multas),]
+x <- 1
+y <- 1
 
-rm(det_multasfin, reasons_cod, multas2)
-colnames(multas2)
-colnames(det_multas)
+while (x < 3567890) {
+  for (i in x:(x+999999)) {
+    assign(paste('multas_',y, sep = ''), multas_mad[x:(x+999999),])
+    x <- (x+999999)+1
+    y <- y+1
+  }
+}
 
-# MANIPULATION-------------------------------------------------------------------------------------
+tail(multas_11, 50)
 
-query 
+multas_11 <- multas_11[1:259646,]
+ 
+dbWriteTable(aws, "multas", multas_11, row.names=FALSE, append=TRUE)
+

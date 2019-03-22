@@ -1,6 +1,7 @@
 install.packages('tidyverse')
 library(tidyverse)
 library(tidyr)
+library(plyr)
 address <- distinct(address, LUGAR)
 address$direccion <- paste(address$LUGAR, ', Madrid', sep = '')
 
@@ -62,39 +63,47 @@ write.csv(multas, 'MultasMAD_Python.csv', row.names=FALSE)
 
 #--------------------------------------------------------------------------------------------
 
-geocodeformat <- multas %>%
-  arrange(coordenada_x)
-colnames(geocodeformat)
-geocodeformat <- geocodeformat[c(10,11,12,13)]
 
-geocodeformat2 <- geocodeformat %>%
-  filter(!is.na(coordenada_x))
+geocodeformat <- na.omit(edit_coord)
+geocodeformat$lonx <- gsub("[^0-9]", "", geocodeformat$lonx)
+geocodeformat$laty <- gsub("[^0-9]", "", geocodeformat$laty)
 
-geocodeformat2 <- unite(geocodeformat2, codes, coordenada_x, coordenada_y, sep = "/")
+geocodeformat$lonx <- sub("(.{6})(.*)", "\\1.\\2", geocodeformat$lonx)
+geocodeformat$laty <- sub("(.{7})(.*)", "\\1.\\2", geocodeformat$laty)
 
-geocodeformat2 <- distinct(geocodeformat2, codes, .keep_all = TRUE)
+geocodeformat <- unite(geocodeformat, codes, lonx, laty, sep = "/")
+
+geocodeformat2 <- distinct(geocodeformat, lugar, .keep_all = TRUE)
 
 geocodeformat2 <- separate(geocodeformat2, col = codes, into = c("east", "north"), sep = "/")
 
-geocodeformat2$zone <- 32
+geocodeformat2$zone <- 30
 
-geocodeformat2 <- geocodeformat2[c(2,1,5,3,4)]
+geocodeformat2 <- geocodeformat2[c(1,2,4,3,5)]
 
-geocodeformat3 <- geocodeformat2[c(1,2,3)]
+write.csv(geocodeformat2, 'convertcoord.csv', row.names=FALSE)
+coordenadas <- read.csv('convertcoord.csv', header = TRUE, sep = ',', dec = '.')
 
-geocodeformat3 <- separate(geocodeformat3, col = north, into = c("north", "bad"), sep = ",")
+coordenadas$lugar <- str_trim(coordenadas$lugar)
+coordenadas <- coordenadas[c(2, 5, 6)]
+colnames(coordenadas)[c(2, 3)] <- c('coordenada_x', 'coordenada_y')
 
-geocodeformat3$north = as.integer(geocodeformat3$north)
-geocodeformat3$east = as.integer(geocodeformat3$east)
-class(geocodeformat3$east)
+coordenadas_det <- det_multas[c(6, 16, 17)]
+coordenadas_det <- na.omit(coordenadas_det)
+coordenadas_det$lugar <- str_trim(coordenadas_det$lugar)
+coordenadas_det <- distinct(coordenadas_det, lugar, .keep_all = TRUE)
 
-write.csv(geocodeformat3, 'convertcoord.csv', row.names=FALSE)
+coordenadas_xy <- dplyr::union(coordenadas_det, coordenadas)
+coordenadas_xy <- distinct(coordenadas_xy, lugar, .keep_all = TRUE)
 
-for(i in 1:nrow(geocodeformat2)) {
-  # Print("Working...")
-  result <- geocode(geocodeformat2$codes[i], output = "latlona", source = "google")
-  address2$lon_x[i] <- as.numeric(result[1])
-  address2$lat_y[i] <- as.numeric(result[2])
-  address2$geoAddress[i] <- as.character(result[3])
-}
+det_multas <- det_multas[(1:15)]
+det_multas$lugar <- str_trim(det_multas$lugar)
 
+multas_mad <- dplyr::left_join(det_multas, coordenadas_xy, by = c('lugar'), all.x=T)
+
+prueba <- multas_mad %>%
+  filter(lugar == 'MIGUEL SERVET 1')
+rm(prueba)
+
+sum(!is.na(multas_mad$coordenada_x))-sum(!is.na(multas$coordenada_x))
+sum(!is.na(multas_mad$coordenada_x))+sum(is.na(multas_mad$coordenada_x))
